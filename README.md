@@ -10,6 +10,8 @@ A real-time, voice-enabled AI receptionist built with n8n, Groq, and a custom Re
 
 ### Workflow Overview
 ![AI Receptionist n8n Workflow](images/Screenshot_AI Voice Receptionist.png) 
+<img src="images/Screenshot_AI Voice Receptionist.png" alt="Alt text" width="300" height="200">
+
 
 ---
 
