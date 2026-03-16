@@ -42,13 +42,11 @@ The transcribed or typed message is sent to the AI Agent powered by the Groq Cha
 ### 4. Discovery Logic
 Instead of a fixed form, the AI follows a dynamic qualification flow. It identifies the user's specific pain points, manual bottlenecks, and tech stack through conversation before offering a booking link.
 
-### 5. Intent Routing (If Node)
-Once the AI responds, an If node evaluates the lead's intent:
-- **High intent** — the response is processed via HTTP Request to Groq's TTS API, converted to audio using the Orpheus model (WAV format), and streamed back to the frontend for near-zero latency playback. The Calendly booking link is surfaced.
-- **Low intent** — the conversation continues or the lead is gracefully exited via the Edit Fields node.
+5. Response Routing (If Node)
+Once the AI Agent responds, an If node evaluates whether the original request came in as voice or text:
 
-### 6. Speech Synthesis
-The AI's text response is converted back into human-like audio using Groq's Orpheus TTS and streamed to the React frontend for immediate playback.
+Voice input — the response is sent via HTTP Request to Groq's TTS API, converted to audio using the Orpheus model (WAV format), and streamed back to the frontend for near-zero latency playback.
+Text input — the AI's text reply is sent directly back to the frontend as is.
 
 ---
 
@@ -78,10 +76,10 @@ The AI's text response is converted back into human-like audio using Groq's Orph
 | AI Agent | Core conversational logic with memory and qualification |
 | Groq Chat Model | Powers the AI Agent's responses |
 | Simple Memory | Maintains session context across turns |
-| If | Evaluates lead intent and routes accordingly |
+| If | evaluates whether the original request came in as voice or text |
 | HTTP Request (TTS) | Sends AI text response to Groq Orpheus for speech synthesis |
 | Code in JavaScript1 | Processes returned audio for frontend streaming |
-| Edit Fields | Handles low-intent or exit paths |
+| Edit Fields | Handles text reply |
 
 ---
 
@@ -136,25 +134,8 @@ npm start
 
 **Why a custom React frontend?** n8n has no native voice interface. Building a custom frontend allowed full control over audio recording, streaming playback, and UX design.
 
-**Why the If node for routing?** Rather than always generating audio (expensive and slow for low-intent leads), the If node ensures TTS is only triggered when the conversation is progressing toward a booking.
-
----
-
-## Screenshots
-
-> Add additional UI screenshots of the React frontend here
-
----
-
-## Future Improvements
-- CRM integration to sync lead data and conversation summaries automatically
-- Multi-language support using Groq's multilingual Whisper model
-- Sentiment detection to adjust the agent's tone in real time
-- Analytics dashboard to track qualification rates and drop-off points
-
 ---
 
 ## Author
 
 **Hana Wubet**
-[LinkedIn](#) | [GitHub](#) | hannwub12@gmail.com
